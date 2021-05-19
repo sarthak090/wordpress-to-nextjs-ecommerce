@@ -1,0 +1,9 @@
+@media (max-width: 768px) {
+  .product-img {
+    height: 200px;
+  }
+  .product-title {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+}
