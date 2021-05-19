@@ -3,11 +3,14 @@ import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Layout/Header";
 import Error from "../components/UI/Error";
 import CartContext from "../context/CartContext";
+import NotificationContext from "../context/NotificationContext";
 import CartRow from "../components/Cart/TableRow";
 export default function cart() {
   const { currentCartItems } = useContext(CartContext);
+  const { setNotification } = useContext(NotificationContext);
   const [cartProducts, setCartProducts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const fetchCartProducts = async () => {
     if (currentCartItems().cart.length > 0) {
@@ -39,7 +42,12 @@ export default function cart() {
     }
   };
 
-  const handleDeletBtn = () => {};
+  const applyCouponForm = (e) => {
+    e.preventDefault();
+    if (couponCode.length < 4) {
+      setNotification("please enter valid coupon code", "danger");
+    }
+  };
   useEffect(() => {
     fetchCartProducts();
   }, [currentCartItems]);
@@ -69,6 +77,19 @@ export default function cart() {
               ))}
             </tbody>
           </table>
+          <div className="row">
+            <div className="col-lg-12">
+              <form className="form-inline" onSubmit={applyCouponForm}>
+                <input
+                  className="form-control "
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  value={couponCode}
+                  type="text"
+                />
+                <button className="btn btn-info ml-4">Add Coupon</button>
+              </form>
+            </div>
+          </div>
         </div>
       </>
     );
