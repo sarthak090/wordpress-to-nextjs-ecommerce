@@ -1,4 +1,4 @@
-export const addToCart = (productId) => {
+export const addToCart = (productId, qty) => {
   //CHECK CART AVAIlable
 
   if (getCart() !== null) {
@@ -11,6 +11,10 @@ export const addToCart = (productId) => {
 
     if (inCart) {
       //increase qty
+      if (qty) {
+        changeQty(productIndex, qty);
+        return;
+      }
       increseQty(productIndex);
     } else {
       //add new product to cart
@@ -33,6 +37,18 @@ const increseQty = (productIndex) => {
   const newProductData = {
     ...product,
     quantity: parseInt(product.quantity) + 1,
+  };
+  userCart.cart[productIndex] = newProductData;
+  console.log(userCart);
+  return setUserCart(userCart);
+};
+
+const changeQty = (productIndex, qty) => {
+  let userCart = getCart();
+  const product = userCart.cart[productIndex];
+  const newProductData = {
+    ...product,
+    quantity: parseInt(qty),
   };
   userCart.cart[productIndex] = newProductData;
   console.log(userCart);
@@ -64,6 +80,15 @@ const addNewProductToCart = (productId) => {
 const setUserCart = (userCart) => {
   window.localStorage.setItem("userCart", JSON.stringify(userCart));
   return true;
+};
+
+export const removeItemFromCart = (productId) => {
+  let userCart = getCart();
+  const { inCart, productIndex } = hasProductInCart(productId, userCart.cart);
+  if (inCart) {
+    userCart.cart.splice(productIndex, 1);
+    setUserCart(userCart);
+  }
 };
 export const createCart = (productId) => {
   if (getCart() == null) {

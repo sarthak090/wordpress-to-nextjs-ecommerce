@@ -31,3 +31,8 @@ body {
 .cta-container button {
   flex: 1;
 }
+.cart-item-img {
+  max-width: 70px;
+  max-height: 90px;
+  justify-self: center;
+}

@@ -3,46 +3,47 @@ import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Layout/Header";
 import Error from "../components/UI/Error";
 import CartContext from "../context/CartContext";
+import CartRow from "../components/Cart/TableRow";
 export default function cart() {
-  const { cart, getCart } = useContext(CartContext);
+  const { currentCartItems } = useContext(CartContext);
   const [cartProducts, setCartProducts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const fetchCartProducts = async () => {
-    if (cart.length > 0) {
-      let productIds = cart.map((item) => String(item.id));
-      //   let products = cart.map((item) => String(item.id));
-
+    if (currentCartItems().cart.length > 0) {
       try {
         const sendReq = {
           url: `${process.env.NEXT_PUBLIC_WP}/wpc/v1/cart/products`,
-          method: "GET",
+          method: "POST",
 
           data: {
-            items: "gh",
+            items: currentCartItems().cart,
           },
           headers: { "Content-Type": "application/json" },
         };
 
-        //   axios(sendReq).then((r) => console.log(r.data));
-        const products = await axios(sendReq);
-        console.log(products);
-        if (products.length > 0) {
+        const products = await (await axios(sendReq)).data;
+
+        if (products && products.length > 0) {
           setCartProducts(products);
-          console.log(products);
+
           setIsLoaded(true);
         } else {
           setErrorMsg("No Products in Your Cart");
         }
       } catch (e) {
-        console.log(e.response);
+        console.log(e);
       }
+    } else {
+      setErrorMsg("No Products in Your Cart");
     }
   };
+
+  const handleDeletBtn = () => {};
   useEffect(() => {
     fetchCartProducts();
-  }, [cart]);
-  if (isLoaded) {
+  }, [currentCartItems]);
+  if (isLoaded && cartProducts.length > 0) {
     return (
       <>
         <Header />
@@ -60,23 +61,11 @@ export default function cart() {
             </thead>
             <tbody>
               {cartProducts.map((product) => (
-                <tr>
-                  <td>
-                    {/* <img
-                      className="img-fluid cart-item-img"
-                      src={product.featuredImage}
-                    /> */}
-                    {product.name}
-                  </td>
-                  <td>
-                    {/* <img
-                      className="img-fluid cart-item-img"
-                      src={product.featuredImage}
-                    /> */}
-                    {product.name}
-                  </td>
-                  <td>{product.price}</td>
-                </tr>
+                <CartRow
+                  key={product.id}
+                  {...product}
+                  fetchCartProducts={fetchCartProducts}
+                />
               ))}
             </tbody>
           </table>

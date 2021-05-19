@@ -22,6 +22,9 @@ export const CartProvider = (props) => {
     addToCart(id);
     getCart();
   };
+  const currentCartItems = () => {
+    return JSON.parse(window.localStorage.getItem("userCart"));
+  };
   useEffect(() => {
     getCart();
   }, []);
@@ -32,6 +35,7 @@ export const CartProvider = (props) => {
         createCartForUser,
         addProductToCart,
         cart,
+        currentCartItems,
       }}
     >
       {props.children}
