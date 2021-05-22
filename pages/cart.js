@@ -5,15 +5,23 @@ import Error from "../components/UI/Error";
 import CartContext from "../context/CartContext";
 import NotificationContext from "../context/NotificationContext";
 import CartRow from "../components/Cart/TableRow";
+import SubTotal from "../components/Cart/SubTotal";
+import { isValidCoupon } from "../utils/cart-helpers";
+import Link from "next/link";
 export default function cart() {
-  const { currentCartItems } = useContext(CartContext);
+  const { currentCartItems, addCoupon, currentCouponCode } =
+    useContext(CartContext);
   const { setNotification } = useContext(NotificationContext);
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartData, setCartData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const fetchCartProducts = async () => {
     if (currentCartItems().cart.length > 0) {
+      let couponCode = "";
+      if (currentCouponCode()) {
+        couponCode = currentCouponCode().coupons[0].couponCode;
+      }
       try {
         const sendReq = {
           url: `${process.env.NEXT_PUBLIC_WP}/wpc/v1/cart/products`,
@@ -21,14 +29,16 @@ export default function cart() {
 
           data: {
             items: currentCartItems().cart,
+            couponCode,
           },
           headers: { "Content-Type": "application/json" },
         };
 
         const products = await (await axios(sendReq)).data;
 
-        if (products && products.length > 0) {
-          setCartProducts(products);
+        if (products && products.items.length > 0) {
+          // setCartProducts(products.items);
+          setCartData(products);
 
           setIsLoaded(true);
         } else {
@@ -42,16 +52,30 @@ export default function cart() {
     }
   };
 
-  const applyCouponForm = (e) => {
+  const applyCouponForm = async (e) => {
     e.preventDefault();
     if (couponCode.length < 4) {
-      setNotification("please enter valid coupon code", "danger");
+      setNotification("Please Enter valid coupon code", "danger");
+    } else {
+      const { isValid } = await isValidCoupon(couponCode);
+      if (isValid) {
+        addCoupon(couponCode);
+        setNotification("Coupon Applied To Your Cart", "success");
+      } else {
+        setNotification("Please Enter valid coupon code", "danger");
+      }
     }
   };
+
   useEffect(() => {
-    fetchCartProducts();
-  }, [currentCartItems]);
-  if (isLoaded && cartProducts.length > 0) {
+    if (currentCouponCode()) {
+      setCouponCode(currentCouponCode().coupons[0].couponCode);
+      fetchCartProducts();
+    } else {
+      fetchCartProducts();
+    }
+  }, [currentCartItems, currentCouponCode]);
+  if (isLoaded && cartData.items) {
     return (
       <>
         <Header />
@@ -68,7 +92,7 @@ export default function cart() {
               </tr>
             </thead>
             <tbody>
-              {cartProducts.map((product) => (
+              {cartData.items.map((product) => (
                 <CartRow
                   key={product.id}
                   {...product}
@@ -78,7 +102,7 @@ export default function cart() {
             </tbody>
           </table>
           <div className="row">
-            <div className="col-lg-12">
+            <div className="col-lg-8">
               <form className="form-inline" onSubmit={applyCouponForm}>
                 <input
                   className="form-control "
@@ -89,6 +113,14 @@ export default function cart() {
                 <button className="btn btn-info ml-4">Add Coupon</button>
               </form>
             </div>
+            <div className="col-lg-4">
+              <SubTotal {...cartData} />
+            </div>
+            <button className="btn btn-block mt-4 btn-success">
+              <Link href="/checkout">
+                <a href="/checkout">Check Out</a>
+              </Link>
+            </button>
           </div>
         </div>
       </>

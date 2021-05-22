@@ -82,6 +82,11 @@ const setUserCart = (userCart) => {
   return true;
 };
 
+const setLoacalStorage = (key, value) => {
+  window.localStorage.setItem(key, JSON.stringify(value));
+  return true;
+};
+
 export const removeItemFromCart = (productId) => {
   let userCart = getCart();
   const { inCart, productIndex } = hasProductInCart(productId, userCart.cart);
@@ -106,3 +111,36 @@ export const createCart = (productId) => {
     };
   }
 };
+
+export const addCouponToCart = async (couponCode) => {
+  if (getCouponData() !== null) {
+    let couponData = getCouponData();
+    // couponData.coupons[0] = couponData;
+    if (couponData.coupons[0]) {
+      couponData.coupons[0].couponCode = couponCode;
+      setLoacalStorage("couponData", couponData);
+    }
+  } else {
+    createCoupnData(couponCode);
+  }
+};
+
+export const isValidCoupon = async (code) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_WP}/wpc/v1/check-coupon?couponcode=${code}`
+  );
+  const isValid = await res.json();
+
+  return {
+    isValid,
+  };
+};
+
+const createCoupnData = (couponCode) =>
+  window.localStorage.setItem(
+    "couponData",
+    JSON.stringify({ coupons: [{ couponCode }] })
+  );
+
+const getCouponData = () =>
+  JSON.parse(window.localStorage.getItem("couponData"));
