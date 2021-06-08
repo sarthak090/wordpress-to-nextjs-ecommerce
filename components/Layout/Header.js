@@ -7,7 +7,10 @@ export default function Header() {
     return (
       <>
         {msg.length > 0 && (
-          <div class={`alert alert-${msgType} my-4`} role="alert">
+          <div
+            className={`px-4 py-3 rounded text-gray-50 font-semibold ${msgType} my-4`}
+            role="alert"
+          >
             {msg}
           </div>
         )}
@@ -15,9 +18,9 @@ export default function Header() {
     );
   };
   return (
-    <div>
+    <>
       <NavBar />
-      <div className="container">{showNotifcation()}</div>
-    </div>
+      <div className="container mx-auto">{showNotifcation()}</div>
+    </>
   );
 }

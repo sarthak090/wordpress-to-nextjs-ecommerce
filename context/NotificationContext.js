@@ -1,8 +1,8 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 const NotificationContext = createContext();
 export const NotificationProvider = (props) => {
   const [msg, setMsg] = useState("");
-  const [msgType, setMsgType] = useState("success");
+  const [msgType, setMsgType] = useState("bg-green-300");
   const [notfTime, setNotfTime] = useState(3000);
   const setNotification = (notificationMsg, type, time) => {
     setMsg(notificationMsg);
@@ -12,7 +12,7 @@ export const NotificationProvider = (props) => {
     if (time > 3000) {
       setNotfTime(time);
     }
-    console.log(msgType);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setTimeout(() => {
       setMsg("");
     }, notfTime);

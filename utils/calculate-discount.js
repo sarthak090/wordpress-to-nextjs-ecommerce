@@ -22,9 +22,9 @@ const percentage = (num, per) => (num / 100) * per;
 
 const getDiscountData = (subtotal, discount) => {
   return {
-    discount,
-    subTotal: subtotal,
-    total: subtotal - discount,
+    Discount: discount,
+    SubTotal: subtotal,
+    Total: subtotal - discount,
   };
 };
 
@@ -33,5 +33,6 @@ const totalQuantity = (items) =>
 
 export const getSubTotal = (cartData) =>
   getSumOfArr(cartData.items.map((product) => product.total));
-
+export const getStripeTotal = (cartData) =>
+  caluclateDiscount(cartData).Total * 100;
 const getSumOfArr = (arr) => arr.reduce((acc, sum) => acc + sum);

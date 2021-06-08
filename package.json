@@ -11,6 +11,14 @@
     "@woocommerce/woocommerce-rest-api": "^1.0.1",
     "next": "10.2.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-stripe-checkout": "^2.6.3",
+    "stripe": "^8.153.0",
+    "swr": "^0.5.6",
+    "tailwindcss": "^2.1.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.3.0"
   }
 }

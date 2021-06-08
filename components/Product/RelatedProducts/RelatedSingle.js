@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 export default function RelatedSingle(product) {
   return (
@@ -13,7 +12,10 @@ export default function RelatedSingle(product) {
               />
             </div>
 
-            <div className="m-2">{product.name}</div>
+            <div className="m-2">
+              {product.name}
+              {product.price}
+            </div>
           </div>
         </a>
       </Link>

@@ -1,27 +1,19 @@
 import React from "react";
-import Link from "next/link";
-
+import SingleProduct from "./SingleProduct";
 export default function index({ products }) {
+  const toggleWishList = (id) => {
+    console.log(id);
+  };
+  const isWishlisted = (id) => {};
   return (
-    <div>
-      <div className="row">
+    <div className="my-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-4">
         {products.map((product) => (
-          <div key={product.id} className="col-lg-4">
-            <Link href={`/product/${product.slug}`}>
-              <a href={`/product/${product.slug}`}>
-                <div className="product-inner-col">
-                  <div className="product-img-container">
-                    <img
-                      src={product.featuredImage}
-                      className="img-fluid product-img"
-                    />
-                  </div>
-
-                  <div className="m-2">{product.name}</div>
-                </div>
-              </a>
-            </Link>
-          </div>
+          <SingleProduct
+            {...product}
+            key={product.id}
+            toggleWishList={toggleWishList}
+          />
         ))}
       </div>
     </div>

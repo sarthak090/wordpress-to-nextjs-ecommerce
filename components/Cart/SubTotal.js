@@ -2,18 +2,17 @@ import React from "react";
 import { caluclateDiscount, getSubTotal } from "../../utils/calculate-discount";
 export default function SubTotal(cartData) {
   return (
-    <div className="border p-2">
-      <div className="row my-4">
-        <strong className="col-6"> Total Price:</strong>
-        {getSubTotal(cartData)}
+    <div className=" p-2 text-xl text-gray-800">
+      <div className="flex gap-2 my-4">
+        <strong className="col-6"> Total Price:</strong>${getSubTotal(cartData)}
       </div>
-      <div>
-        <div className="row">
+      <div className="">
+        <div className="flex flex-col gap-1 ">
           {Object.keys(caluclateDiscount(cartData)).map((key) => (
-            <>
-              <strong className="text-uppercase col-6"> {key}:</strong>
+            <div>
+              <strong className=" mr-2"> {key}:</strong>$
               {caluclateDiscount(cartData)[key]}
-            </>
+            </div>
           ))}
         </div>
       </div>

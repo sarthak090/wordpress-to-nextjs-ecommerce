@@ -1,6 +1,5 @@
+import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
-import "../styles/bootstrap.css";
-import "../styles/responsive.css";
 import { AuthProvider } from "../context/AuthContext";
 import { CartProvider } from "../context/CartContext";
 import { NotificationProvider } from "../context/NotificationContext";

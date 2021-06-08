@@ -4,8 +4,6 @@ import Product from "../../components/Product";
 import Header from "../../components/Layout/Header";
 
 const ProductBySlug = ({ postsData, error }) => {
-  const [productData, setProductData] = useState({});
-
   if (!error) {
     return (
       <>

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Layout/Header";
 import Error from "../components/UI/Error";
+import Buttons from "../components/UI/Buttons";
 import CartContext from "../context/CartContext";
 import NotificationContext from "../context/NotificationContext";
 import CartRow from "../components/Cart/TableRow";
@@ -17,7 +18,7 @@ export default function cart() {
   const [couponCode, setCouponCode] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const fetchCartProducts = async () => {
-    if (currentCartItems().cart.length > 0) {
+    if (currentCartItems() && currentCartItems().cart.length > 0) {
       let couponCode = "";
       if (currentCouponCode()) {
         couponCode = currentCouponCode().coupons[0].couponCode;
@@ -79,48 +80,42 @@ export default function cart() {
     return (
       <>
         <Header />
-        <div className="container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Product</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">SubTotal</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cartData.items.map((product) => (
-                <CartRow
-                  key={product.id}
-                  {...product}
-                  fetchCartProducts={fetchCartProducts}
-                />
-              ))}
-            </tbody>
-          </table>
-          <div className="row">
-            <div className="col-lg-8">
-              <form className="form-inline" onSubmit={applyCouponForm}>
+        <div className="container mx-auto">
+          <div className="">
+            {cartData.items.map((product) => (
+              <CartRow
+                key={product.id}
+                {...product}
+                fetchCartProducts={fetchCartProducts}
+              />
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 border border-gray-300 my-4 p-4">
+            <div className="self-center">
+              <form
+                className="flex justify-around sm:justify-start"
+                onSubmit={applyCouponForm}
+              >
                 <input
-                  className="form-control "
+                  className="px-4 py-2  border rounded focus:shadow border-gray-300 focus:border-blue-200 focus:outline-none "
                   onChange={(e) => setCouponCode(e.target.value)}
                   value={couponCode}
                   type="text"
                 />
-                <button className="btn btn-info ml-4">Add Coupon</button>
+                <button className="btn transition-all  btn-info border hover:text-blue-500 focus:outline-none hover:bg-transparent hover:border-blue-300 ml-4">
+                  Add Coupon
+                </button>
               </form>
             </div>
-            <div className="col-lg-4">
+            <div>
               <SubTotal {...cartData} />
+              <Buttons width="w-full" margin="mt-4">
+                <Link href="/checkout">
+                  <a href="/checkout">Check Out</a>
+                </Link>
+              </Buttons>
             </div>
-            <button className="btn btn-block mt-4 btn-success">
-              <Link href="/checkout">
-                <a href="/checkout">Check Out</a>
-              </Link>
-            </button>
           </div>
         </div>
       </>
@@ -129,7 +124,9 @@ export default function cart() {
   return (
     <>
       <Header />
-      <Error errorMsg={errorMsg} />
+      <div className="container mx-auto">
+        <Error errorMsg={errorMsg} />
+      </div>
     </>
   );
 }
