@@ -1,4 +1,3 @@
-import React from "react";
 import { caluclateDiscount, getSubTotal } from "../../utils/calculate-discount";
 export default function SubTotal(cartData) {
   return (

@@ -1,16 +1,15 @@
 import { useState } from "react";
-
-const useFormInputs = (inital) => {
+import { addToCart, removeItemFromCart } from "../utils/cart-helpers";
+const useUpdateItem = (inital) => {
   const [fields, setFields] = useState(inital);
 
   return [
     fields,
-    (evt) => {
-      setFields({
-        ...fields,
-        [evt.target.name]: evt.target.value,
-      });
+    (qty, productId) => {
+      addToCart(productId, qty);
+      setFields(qty);
     },
+    (productId) => removeItemFromCart(productId),
   ];
 };
-export default useFormInputs;
+export default useUpdateItem;

@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
-import Error from "../../components/UI/Error";
+import React from "react";
 import Header from "../../components/Layout/Header";
 import Link from "next/link";
 export default function Categories({ categories }) {
-  useEffect(() => {
-    console.log(categories);
-  }, []);
   return (
     <>
       <Header />

@@ -19,7 +19,6 @@ export default function downloads() {
         setErrorMsg(`No Downloads Found`);
       }
     }
-    console.log(downloadsData);
   }, [userData, downloadsData, isError]);
   if (isLoaded && downloadsData.length) {
     return (

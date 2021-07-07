@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Address({ userData, title }) {
   return (
     <div className="text-gray-800">

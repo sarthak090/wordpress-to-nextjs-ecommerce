@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import Error from "../../components/UI/Error";
 import Header from "../../components/Layout/Header";
@@ -7,9 +7,7 @@ import SideNav from "../../components/Account/SideNav";
 
 export default function CustomerAddress() {
   const { isAuthenticated, userData } = useContext(AuthContext);
-  useEffect(() => {
-    console.log(userData);
-  }, [isAuthenticated]);
+
   if (isAuthenticated) {
     return (
       <>

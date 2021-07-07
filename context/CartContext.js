@@ -6,10 +6,14 @@ export const CartProvider = (props) => {
   const [cart, setcart] = useState([]);
   const getCart = () => {
     const userCart = JSON.parse(window.localStorage.getItem("userCart"));
-    if (userCart !== null) {
+
+    if (userCart !== null && userCart.cart !== undefined) {
       setcart(userCart.cart);
       return cart;
     } else {
+      const userCart = JSON.stringify({ cart: [] });
+      window.localStorage.setItem("userCart", userCart);
+
       let cart = [];
       return cart;
     }

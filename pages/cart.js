@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Layout/Header";
 import Error from "../components/UI/Error";
-import Buttons from "../components/UI/Buttons";
 import CartContext from "../context/CartContext";
 import NotificationContext from "../context/NotificationContext";
 import CartRow from "../components/Cart/TableRow";
@@ -110,11 +109,14 @@ export default function cart() {
             </div>
             <div>
               <SubTotal {...cartData} />
-              <Buttons width="w-full" margin="mt-4">
-                <Link href="/checkout">
-                  <a href="/checkout">Check Out</a>
-                </Link>
-              </Buttons>
+
+              <Link href="/checkout">
+                <a href="/checkout">
+                  <button className="w-full bg-blue-600 p-3 text-gray-100">
+                    Check Out
+                  </button>
+                </a>
+              </Link>
             </div>
           </div>
         </div>

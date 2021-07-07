@@ -1,7 +1,4 @@
 import { getFullDate } from "../../utils/format-date";
-
-import React from "react";
-
 export default function OrdersTable({ customerOrdersData }) {
   return (
     <table className="table w-full">

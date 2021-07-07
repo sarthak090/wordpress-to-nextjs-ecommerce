@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 import { getFullDate } from "../../utils/format-date";
 export default function OrdersTable({ customerOrdersData }) {
   return (

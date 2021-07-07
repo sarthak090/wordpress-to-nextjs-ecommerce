@@ -1,4 +1,3 @@
-import React from "react";
 import useUpdateItem from "../../hooks/useUpdateItem";
 export default function TableRow(product) {
   const [quantity, updateItemQty, deleteItem] = useUpdateItem(product.quantity);
@@ -12,32 +11,6 @@ export default function TableRow(product) {
     product.fetchCartProducts();
   };
   return (
-    // <tr className="mt-8">
-    //   <td className="flex justify-center">
-    //     <img className="img-fluid cart-item-img" src={product.featuredImage} />
-    //   </td>
-    //   <td className=" justify-center">
-    //     <div>{product.name}</div>
-    //   </td>
-    //   <td>{product.price}</td>
-    //   <td>
-    //     <input
-    //       type="number"
-    //       className="form-control"
-    //       onChange={handleUpdate}
-    //       value={quantity}
-    //       max="10"
-    //       min="1"
-    //     />
-    //   </td>
-    //   <td>{product.total}</td>
-    //   <td>
-    //     <button className="btn btn-primary">V</button>
-    //     <button className="btn btn-danger ml-2" onClick={handleDeletBtn}>
-    //       X
-    //     </button>
-    //   </td>
-    // </tr>
     <div className="flex flex-col sm:flex-row gap-8  border-gray-200 rounded py-4  px-8 my-4 border">
       <div className="max-w-md  sm:max-h-48 flex items-center justify-center">
         <img
