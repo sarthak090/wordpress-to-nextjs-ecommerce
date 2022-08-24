@@ -45,7 +45,9 @@ export default function cart() {
           setErrorMsg("No Products in Your Cart");
         }
       } catch (e) {
-        console.log(e);
+        if (e) {
+          setErrorMsg("Network Error Please Try Again");
+        }
       }
     } else {
       setErrorMsg("No Products in Your Cart");

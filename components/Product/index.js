@@ -7,7 +7,6 @@ import { hasProductInCart } from "../../utils/cart-helpers";
 export default function index(product) {
   const { addProductToCart, cart } = useContext(CartContext);
   const [cartQty, setCartQty] = useState(0);
-
   const {
     name,
     id,
@@ -43,7 +42,6 @@ export default function index(product) {
             <img src={featuredImage} className="h-full " />
           </div>
           <div className="flex flex-col gap-2 w-full  cta-container ">
-            {/* {renderCartBtn()} */}
             <button
               className="px-4 py-1  flex items-center justify-center gap-4 bg-blue-600 rounded text-xl text-gray-50 hover:bg-blue-500 focus:outline-none"
               onClick={handleCartBtn}
